@@ -23,11 +23,11 @@ La instrucció aggregate, es una concatenació de diferents pipelines, que van m
 
 
 #### Diferents Pipelines 
-[Link documentació](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
+[Link a la documentació oficial de mongodb](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
 
 ##### MATCH
 
-fa la funció de where i funciona molt similar a la instrucció **find**
+Realitza la funció de where i funciona molt similar a la instrucció **find** de mongodb
 
 >db.articles.aggregate(
     { $match : { author : "dave" } } ]
