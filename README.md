@@ -1,4 +1,6 @@
-Registres de prova: 
+# Aggregate 
+
+Partirem les proves a partir de la inserció d'aquests registres de prova: 
 
 > db.articles.insertMany([
 { "author" : "dave", "score" : 80, "views" : 100 },
@@ -15,7 +17,7 @@ Registres de prova:
 { "author" : "li", "score" : 96, "views" : 1999 },
 { "author" : "ty", "score" : 89, "views" : 2000 }]);
 
-# Aggregate 
+
 
 #### Diferents Pipelines 
 [Link documentació](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
