@@ -17,6 +17,9 @@ Provarem les diferents comandes (pipelines)  a partir de la inserció d'aquests 
 { "author" : "li", "score" : 96, "views" : 1999 },
 { "author" : "ty", "score" : 89, "views" : 2000 }]);
 
+La instrucció aggregate, es una concatenació de diferents pipelines, que van modificant la consulta a partir del pipeline anterior.
+
+![pipelines](pipelines.png "pipelines")
 
 
 #### Diferents Pipelines 
