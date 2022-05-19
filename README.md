@@ -1,6 +1,6 @@
 # Aggregate 
 
-Partirem les proves a partir de la inserció d'aquests registres de prova: 
+Provarem les diferents comandes (pipelines)  a partir de la inserció d'aquests registres de prova: 
 
 > db.articles.insertMany([
 { "author" : "dave", "score" : 80, "views" : 100 },
