@@ -17,51 +17,60 @@ Provarem les diferents comandes (pipelines)  a partir de la inserció d'aquests 
 { "author" : "li", "score" : 96, "views" : 1999 },
 { "author" : "ty", "score" : 89, "views" : 2000 }]);
 
-La instrucció aggregate, es una concatenació de diferents pipelines, que van modificant la consulta a partir del pipeline anterior.
+La instrucció aggregate, serveix per concatenar diferents pipelines, que van modificant les dades a partir del pipeline anterior..
+Exemple 
+![agreg1](agreg1.png "agreg1")
+
+### Concatenació pipelines
 
 ![pipelines](pipelines.png "pipelines")
 
 
 #### Diferents Pipelines 
-[Link a la documentació oficial de mongodb](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
+El millo lloc i mes actualizat sempre serà la [pàgina oficial de mongodb](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
 
 ##### MATCH
 
-Realitza la funció de where i funciona molt similar a la instrucció **find** de mongodb
+Es l'encarregat de fer la la funció SQL **where** i funciona molt similar a la instrucció **find** de mongodb
 
 >db.articles.aggregate(
     { $match : { author : "dave" } } ]
 );
 
-aquesta instrucció serviria per seleccionar tots els registres al qual el seu autor és David.
+aquesta instrucció selecciona tots els registres al qual el seu autor és David.
 
-Tots els operadors vistos amb el find funcionen igual. *Exemple: *
+Tots els operadors vistos amb el find funcionen amb el match. 
+
+*Exemple: *
 
 > db.articles.aggregate( [
   { $match: { $or: [ { score: { $gt: 70, $lt: 90 } }, { views: { $gte: 1000 } } ] } }
 ] );
 
-En aquest cas, seleccionem els articles que el score es troben entre 70 i 90, o el camp views es més gran o superior a 1000.
+En aquest cas, seleccionem els articles que l'han puntuat(*score*) entre 70 i 90, o els articles que han rebut mes de 1000 visites(*views*).
 
 ##### GROUP
 [link documentació](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/group/#pipe._S_group "link")
-Sería la funció similar a la de sql (*GROUP BY*)
+Sería la funció similar a la de SQL (*GROUP BY*)
 
 > db.articles.aggregate( [
   { $match: { $or: [ { score: { $gt: 70, $lt: 90 } }, { views: { $gte: 1000 } } ] } },
   { $group: { _id: null, count: { $sum: 1 } } }
 ] );
 
-El camp que fica _id, son els camps pels qual agrupa els registres, en aquest cas al ficar **null**, agafa tots els registres i realitza un count.
+El camps que es fiquen després de _id:, son els camps pels qual agruparà els registres, en aquest cas al ficar **null**, agafa tots els registres de la collection i realitzarà la funció count(contarà quants registres existeixen).
 
 >db.articles2.aggregate([
    { $match: { score: {$gt:35} } },
    { $group: { _id: "$author", total: { $sum: "$views" } } }
 ])
 
-En aquest cas despres de eliminar tots els registres que tenen puntuació menor de 35, agrupem per autor i fer la suma de visites que han vist el seu article, que es mostraran en un camp total.
+En aquest cas despres de eliminar tots els registres que tenen puntuació menor de 35, agruparem per autor i contarem quantes visites han rebut cadascun dels diferents autors, que es mostraran en un camp nou anomenat  **total**.
 
-Totes les funcions que podem utilitzar al pipeline group, es pot consultar [aqui](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/group/#accumulators-group "aqui"), moltes son similars a funcions existents en sql, però una de les més interessants i diferent a sql, seria el $addToSet, que agafa tots els valors diferents  d'un camp per una  agrupació i els fica tots en un array.
+###### Funcións aplicables a group.
+Totes les funcions que podem utilitzar al pipeline group, es pot consultar [aqui](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/group/#accumulators-group "aqui"), moltes son similars a funcions existents en sql.
+
+Una de les més interessants i que no existeix en SQL, seria el $addToSet, que agafa tots els valors diferents  d'un camp per una  agrupació determinada i els fica tots en un array.
 
 >db.articles.aggregate(
    [
@@ -74,20 +83,13 @@ Totes les funcions que podem utilitzar al pipeline group, es pot consultar [aqui
    ]
 )
 
+Amb aquesta instrucció agrupem tots els articles per author i en un camp nou anomenat **puntuacions**, crearem un array amb les distintes puntuacions creades. 
+
 ![addtoset](addtoset.png "addtoset")
 
 ##### PROJECT
-Seria el equivalent al select camp1,camp2,camp3, de sql, amb la diferencia, que a partir del pipeline project, tots els camps no indicats amb 1, desapareixen per les següents etapes
+Seria el equivalent al select camp1,camp2,camp3, de sql, amb la diferencia, que  tots els camps que no estiguin  indicats amb 1, desapareixen per les següents etapes
 [documentació aquí](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/project/#pipe._S_project "documentació aquí")
-
->db.articles.aggregate(
-   [
-     { $sort : { score : -1, views: 1 } }
-   ]
-)
-
-aquest cas ordenariem, pels articles mes valorats, i en cas d'empat ordena per les que tenen més visites primers.
-
 
 >db.articles2.aggregate([
    { $match: { score: {$gt:35} } },
@@ -99,6 +101,16 @@ Aquest instrucció mostraria els camps author i el score, els altres no els most
 ##### SORT
 Ordena la collection pels camps indicats en aquest pipeline. Els camps marcats amb *1*  s'ordenaran de forma ascendent, i amb *-1* descendent
 [documentació aqui](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/sort/#pipe._S_sort "documentació aqui")
+
+
+>db.articles.aggregate(
+   [
+     { $sort : { score : -1, views: 1 } }
+   ]
+)
+
+aquest cas ordenariem, pels articles mes valorats, i en cas d'empat ordena per les que tenen més visites primers.
+
 
 ##### SKIP
 
