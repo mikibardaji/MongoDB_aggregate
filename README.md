@@ -20,6 +20,7 @@ Provarem les diferents comandes (pipelines)  a partir de la inserció d'aquests 
 La instrucció aggregate, serveix per concatenar diferents pipelines, que van modificant les dades a partir del pipeline anterior..
 
 **Exemple **
+
 <img src="agreg1.png" alt="aggregate" width="500"/>
 
 
