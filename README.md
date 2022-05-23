@@ -24,6 +24,8 @@ La instrucció aggregate, serveix per concatenar diferents pipelines, que van mo
 
 ### Concatenació pipelines
 
+<img src="pipelines.png" alt="pipelines" width="200"/>
+
 ![pipelines](pipelines.png "pipelines")
 
 
