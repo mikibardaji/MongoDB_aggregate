@@ -18,7 +18,8 @@ Provarem les diferents comandes (pipelines)  a partir de la inserció d'aquests 
 { "author" : "ty", "score" : 89, "views" : 2000 }]);
 
 La instrucció aggregate, serveix per concatenar diferents pipelines, que van modificant les dades a partir del pipeline anterior..
-Exemple 
+
+**Exemple **
 ![agreg1](agreg1.png "agreg1")
 
 ### Concatenació pipelines
@@ -27,17 +28,17 @@ Exemple
 
 
 #### Diferents Pipelines 
-El millo lloc i mes actualizat sempre serà la [pàgina oficial de mongodb](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
+El millor lloc i més actualitzat sempre serà la [pàgina oficial de mongodb](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation-pipeline/#aggregation-pipeline-operator-reference "Link documentació")
 
 ##### MATCH
 
-Es l'encarregat de fer la la funció SQL **where** i funciona molt similar a la instrucció **find** de mongodb
+És l'encarregat de fer la la funció SQL **where** i funciona molt similar a la instrucció **find** de mongodb
 
 >db.articles.aggregate(
     { $match : { author : "dave" } } ]
 );
 
-aquesta instrucció selecciona tots els registres al qual el seu autor és David.
+Aquesta instrucció selecciona tots els registres al qual el seu autor és David.
 
 Tots els operadors vistos amb el find funcionen amb el match. 
 
@@ -47,25 +48,25 @@ Tots els operadors vistos amb el find funcionen amb el match.
   { $match: { $or: [ { score: { $gt: 70, $lt: 90 } }, { views: { $gte: 1000 } } ] } }
 ] );
 
-En aquest cas, seleccionem els articles que l'han puntuat(*score*) entre 70 i 90, o els articles que han rebut mes de 1000 visites(*views*).
+En aquest cas, seleccionem els articles que l'han puntuat(*score*) entre 70 i 90, o els articles que han rebut més de 1000 visites(*views*).
 
 ##### GROUP
 [link documentació](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/group/#pipe._S_group "link")
-Sería la funció similar a la de SQL (*GROUP BY*)
+Seria la funció similar a la de SQL (*GROUP BY*)
 
 > db.articles.aggregate( [
   { $match: { $or: [ { score: { $gt: 70, $lt: 90 } }, { views: { $gte: 1000 } } ] } },
   { $group: { _id: null, count: { $sum: 1 } } }
 ] );
 
-El camps que es fiquen després de _id:, son els camps pels qual agruparà els registres, en aquest cas al ficar **null**, agafa tots els registres de la collection i realitzarà la funció count(contarà quants registres existeixen).
+Els camps que es fiquen després de _id:, són els camps pel qual agruparà els registres, en aquest cas al ficar **null**, agafa tots els registres de la collection i realitzarà la funció count (contarà quants registres existeixen).
 
 >db.articles2.aggregate([
    { $match: { score: {$gt:35} } },
    { $group: { _id: "$author", total: { $sum: "$views" } } }
 ])
 
-En aquest cas despres de eliminar tots els registres que tenen puntuació menor de 35, agruparem per autor i contarem quantes visites han rebut cadascun dels diferents autors, que es mostraran en un camp nou anomenat  **total**.
+En aquest cas després d'eliminar tots els registres que tenen puntuació menor de 35, agruparem per autor i contarem quantes visites han rebut cadascun dels diferents autors, que es mostraran en un camp nou anomenat **total**.
 
 ###### Funcións aplicables a group.
 Totes les funcions que podem utilitzar al pipeline group, es pot consultar [aqui](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/group/#accumulators-group "aqui"), moltes son similars a funcions existents en sql.
@@ -88,7 +89,7 @@ Amb aquesta instrucció agrupem tots els articles per author i en un camp nou an
 ![addtoset](addtoset.png "addtoset")
 
 ##### PROJECT
-Seria el equivalent al select camp1,camp2,camp3, de sql, amb la diferencia, que  tots els camps que no estiguin  indicats amb 1, desapareixen per les següents etapes
+Seria l'equivalent al select camp1,camp2,camp3, de sql, amb la diferència, que tots els camps que no estiguin indicats amb 1, desapareixen per les següents etapes.
 [documentació aquí](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/project/#pipe._S_project "documentació aquí")
 
 >db.articles2.aggregate([
@@ -96,7 +97,7 @@ Seria el equivalent al select camp1,camp2,camp3, de sql, amb la diferencia, que 
    { $project: { _id: 0, "author":1, score:1 } }
 ])
 
-Aquest instrucció mostraria els camps author i el score, els altres no els mostraria. Per defecte tots els camps estan marcats a 0 (no es projecten) excepte el _id, que per defecte es troba a 1 i si no volen que es marqui, s'ha de ficar a 0
+Aquesta instrucció mostraria els camps author i el score, els altres no els mostraria. Per defecte tots els camps estan marcats a 0 (no es projecten) excepte el _id, que per defecte es troba a 1 i si no volen que es marqui, s'ha de ficar a 0.
 
 ##### SORT
 Ordena la collection pels camps indicats en aquest pipeline. Els camps marcats amb *1*  s'ordenaran de forma ascendent, i amb *-1* descendent
@@ -109,7 +110,7 @@ Ordena la collection pels camps indicats en aquest pipeline. Els camps marcats a
    ]
 )
 
-aquest cas ordenariem, pels articles mes valorats, i en cas d'empat ordena per les que tenen més visites primers.
+Aquest cas ordenaríem, pels articles més valorats, i en cas d'empat ordena per les que tenen més visites primers.
 
 
 ##### SKIP
@@ -131,20 +132,20 @@ Mostra els registres indicats al pipeline limit
 
 ##### UNWIND
 
-Descomposa, si en un registre existeix un camp amb valors arrays , els pots descomposar.
+Descomposa, si en un registre existeix un camp amb valors arrays , els pots descompondre.
 
-Suposem que tenim aquest registre a articles 
+Suposem que tenim aquest registre a articles
 
 >  db.articles.insert(
 { "author" : "jairo", "score" : 10, "views" : 30 , "version":["web","phone","paper"]})
 
-aquest registre mostraria un artícle, publicat amb 3 versions, via web, via mòvil i versiò escrita.
+aquest registre mostraria un article, publicat amb 3 versions, via web, via mòbil i versió escrita.
 
 >db.articles.aggregate( [ { $unwind : "$version" } ] )
 
 ![imatge](jairo.png "image")
 
-Hi ha mes opcions interessants que es poden fer amb el pipeline unwind, que es poden trobar a la [documentació oficial](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/unwind/#pipe._S_unwind "documentació oficial")
+Hi ha més opcions interessants que es poden fer amb el pipeline unwind, que es poden trobar a la [documentació oficial](https://www.mongodb.com/docs/v4.2/reference/operator/aggregation/unwind/#pipe._S_unwind "documentació oficial")
 
 ##### OUT
 Comanda per agafar el resultat final e insertarlo a una nova collection, indicada en aquest pipeline.
@@ -156,17 +157,17 @@ Amb SQL, seria com si fessis un SELECT, i el resultat que et dones aquell select
 
 ##### MERGE
 
-Es una evolució del out, crea nous registres en una nova collection o si existeix els inserta, o fins i tot pots indicar que els actualitzi, en cas que coincideixi cert camp.
+És una evolució del out, crea nous registres en una nova collection o si existeix els inserta, o fins i tot pots indicar que els actualitzi, en cas que coincideixi cert camp.
 
 >db.articles..aggregate({ $merge: { into: "articles2", on: "_id", whenMatched: "replace", whenNotMatched: "insert" } })
 
-En aquest cas insertaria a una nova collection, si aquesta collection ja existeix, i ja hi es amb aquella id, realitzaria un update, sinò faria un insert.
+En aquest cas inseriria a una nova collection, si aquesta collection ja existeix, i ja hi és amb aquella id, realitzaria un update, sinó faria un insert.
 **Sol funciona a partir de la versió 4.2 de mongodb**
 
 
 ##### SET
 
-Afegeixes nous camps a un registre o a tots els registres específicats.
+Afegeixes nous camps a un registre o a tots els registres especificats.
 
 >db.articles..aggregate( {
      $set: {
